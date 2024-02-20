@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Beers List</title>
+    <link href="../static/main.css" th:href="@{main.css}" rel="stylesheet"/>
+</head>
+<body>
+<h1>All Beers</h1>
+<table>
+    <tr>
+        <th>Brand</th>
+        <th>Name</th>
+        <th>Alcohol</th>
+    </tr>
+    <tr th:each="beer : ${beers}">
+        <td th:text="${beer.brand}"></td>
+        <td th:text="${beer.name}"></td>
+        <td th:text="${beer.alcohol}"></td>
+    </tr>
+</table>
+
+<h1>Reviews</h1>
+<table>
+    <tr>
+        <th>User</th>
+        <th>Beer name</th>
+        <th>Rating</th>
+        <th>Comment</th>
+    </tr>
+    <th:block th:each="user : ${users}">
+        <tr th:each="review : ${user.reviews}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${review.beerName}"></td>
+            <td th:text="${review.rating}"></td>
+            <td th:text="${review.comment}"></td>
+        </tr>
+    </th:block>
+</table>
+
+<h1>Add or update review</h1>
+<p>
+    <label for="beer">Choose a beer:</label>
+    <select id="beer" name="beerId" form="review">
+        <option th:each="beer : ${beers}" th:value="${beer.id}" th:text="${beer.name}"></option>
+    </select>
+</p>
+
+<p>
+    <label for="rating">Choose a rating:</label>
+    <select id="rating" name="rating" form="review">
+        <option th:each="i: ${#numbers.sequence(1, 5)}" th:value="${i}" th:text="${i}"></option>
+    </select>
+</p>
+
+<form action="#" th:action="@{/reviewForm}" method="post" id="review">
+    <label for="comment">Comment:</label>
+    <input type="text" id="comment" name="comment">
+    <p>
+        <input type="submit" value="Submit"/>
+        <input type="reset" value="Reset"/>
+    </p>
+</form>
+</body>
+</html>
